@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Index</title>
+	<script type="text/javascript" src="js/lib/angular.js"></script>
+	<script type="text/javascript" src="js/lib/angular-routes.js"></script>
+	<script type="text/javascript">
+	var myAppObject = angular.module("myApp", ['ngRoute']);
+
+// -- Partial routes
+	myAppObject.config(function($routeProvider){
+		$routeProvider
+		.when('/', {
+			redirectTo: '/login'
+		})
+		.when('/login', {
+			templateUrl: 'partials/login.partial.html'
+		})
+		.when('/dashboard', {
+			templateUrl: 'partials/dashboard.partial.html',
+			controller: 'DashboardsController',
+			controllerAs: 'dashboardsCtrl'
+		})
+	})
+	</script>
+</head>
+<body>
+	<h1>index</h1>
+	<div ng-view></div>
+</body>
+</html>

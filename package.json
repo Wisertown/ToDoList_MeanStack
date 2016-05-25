@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "express-session": "^1.12.1",
+    "mongoose": "^4.2.3",
+    "mongoose-validator": "^1.2.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "mean_todolist",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

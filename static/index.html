@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Index</title>
+	<script type="text/javascript" src="js/lib/angular.js"></script>
+	<script type="text/javascript" src="js/lib/angular-routes.js"></script>
+	<script type="text/javascript">
+	var myAppObject = angular.module("myApp", ['ngRoute']);
+
+// -- Partial routes
+	myAppObject.config(function($routeProvider){
+		$routeProvider
+		.when('/', {
+			redirectTo: '/login'
+		})
+		.when('/login', {
+			templateUrl: 'partials/login.partial.html',
+			controller: 'SessionsController',
+			controllerAs: 'sessionCtrl'
+		})
+		.when('/dashboard', {
+			templateUrl: 'partials/dashboard.partial.html',
+			controller: 'DashboardsController',
+			controllerAs: 'dashboardsCtrl'
+		})
+		.otherwise({
+			redirectTo: '/'
+		})
+	})
+	myAppObject.controller('SessionsController', function(SessionsFactory){
+		var _this = this;
+		this.create = function(user){
+			_this.error = {};
+			console.log(user);
+			if(user){
+				SessionsFactory.create(user, function(user){
+					if(user.error){_this.error = user.error}
+				})
+			}
+		}
+	})
+	myAppObject.factory('SessionsFactory', function($http, $location){
+		var logged_in_user;
+		var factory = {
+			create: function(user, callback){
+				console.log("made it here!")
+				$http.post('/sessions', user).success(function(response){
+					if(response){
+						logged_in_user = response;
+						$location.path('/dashboard')//changes the users page to dashboard after logging in. injected with the http request above.
+					} else {
+						callback({error:"Invalid Credentials"})
+					}
+					callback(response);
+				})
+			},
+			authenticate: function(){
+				$http.get('/authenticate').success(function(response){
+					if(!logged_in_user){$location.path('/login'); 
+					}
+				});
+			}
+		}
+		return factory;
+	})
+	</script>
+</head>
+<body>
+	<h1>index</h1>
+	<div ng-view></div>
+</body>
+</html>
