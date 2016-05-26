@@ -1,8 +1,17 @@
 //Express
+
 var express = require('express');
+
+var router = require('./src/api');
+
 var app = express();
 
-app.use(express.static(__dirname+'/static'));
+
+app.use('/', express.static('public'));
+
+//routes
+
+app.use('/api/', router)
 //body Parser
 
 //session
@@ -14,4 +23,6 @@ app.use(express.static(__dirname+'/static'));
 //routes
 
 //listener
-app.listen(8080);
+app.listen(8080,  function(){
+	console.log("Hey there, the server is running on 8080");
+});
